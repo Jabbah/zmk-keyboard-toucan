@@ -22,16 +22,15 @@ manifest:
     - name: zmk
       remote: zmkfirmware
       import: app/west.yml
-      revision: v0.3
     - name: cirque-input-module
       remote: geeksville
       revision: toucan
     - name: zmk-rgbled-widget
       remote: caksoylar
       revision: v0.3
- #   - name: prospector-zmk-module
- #     remote: carrefinho
- #     revision: main
+    - name: prospector-zmk-module
+      remote: carrefinho
+      revision: main
     - name: zmk-dongle-screen
       remote: janpfischer
       revision: main
