@@ -32,7 +32,6 @@ static int display_activity_event_handler(const zmk_event_t *eh) {
     }
 
     switch (ev->state) {
-        # fill_background(screen_img)
         lv_canvas_fill_bg(screen_img, lv_color_white(), LV_OPA_COVER)
     case ZMK_ACTIVITY_ACTIVE:
         set_sleep_screen_active(false);
