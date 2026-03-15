@@ -1,7 +1,10 @@
 #include <zephyr/kernel.h>
 #include <lvgl.h>
+#include <stdio.h>
+#include <string.h>
 
 #include "sleep.h"
+#include "../assets/custom_fonts.h"
 
 static bool show_sleep_screen = false;
 
