@@ -10,8 +10,8 @@
 #define BUFFER_OFFSET_MIDDLE 0
 #define BUFFER_OFFSET_BOTTOM 0
 
-#define LVGL_BACKGROUND lv_color_black()
-#define LVGL_FOREGROUND lv_color_white()
+#define LVGL_BACKGROUND lv_color_white()
+#define LVGL_FOREGROUND lv_color_black()
 
 struct status_state {
     uint8_t battery;
