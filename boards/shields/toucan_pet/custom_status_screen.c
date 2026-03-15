@@ -32,6 +32,7 @@ static int display_activity_event_handler(const zmk_event_t *eh) {
     }
 
     switch (ev->state) {
+        fill_background(canvas)
     case ZMK_ACTIVITY_ACTIVE:
         set_sleep_screen_active(false);
         lv_img_set_src(screen_img, &toucan128);
