@@ -11,6 +11,8 @@ LV_IMG_DECLARE(sleep_icon);
 
 static lv_obj_t *screen_img;
 static lv_obj_t *sleep_label;
+static lv_obj_t *awake_label;
+
 
 void setup_status_screen(lv_obj_t *screen) {
     lv_obj_set_style_border_width(screen, 0, LV_PART_MAIN);
