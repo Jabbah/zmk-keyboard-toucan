@@ -1,18 +1,14 @@
 #pragma once
 
 #include <lvgl.h>
+#include "util.h"
 
-#define SCREEN_WIDTH 144
-#define SCREEN_HEIGHT 168
-
-#define BUFFER_SIZE 168
-#define BUFFER_OFFSET_MIDDLE 0
-#define BUFFER_OFFSET_BOTTOM 0
-
-#define LVGL_BACKGROUND lv_color_white()
-#define LVGL_FOREGROUND lv_color_black()
-
-void fill_background(lv_obj_t *canvas);
+/**
+ * Draw a sleep screen showing the keyboard is in sleep mode.
+ * This is displayed when the device enters deep sleep to give the user visual
+ * feedback before the display is powered off.
+ */
+void draw_sleep_screen(lv_obj_t *canvas);
 
 /**
  * Check if the sleep screen should be shown.
