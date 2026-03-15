@@ -35,7 +35,7 @@ manifest:
       revision: main
     - name: zmk-dongle-screen
       remote: alee0729
-      revision: enhance-wpm-meter-y9Hrb
+      revision: claude/enhance-wpm-meter-y9Hrb
       
   self:
     path: config
