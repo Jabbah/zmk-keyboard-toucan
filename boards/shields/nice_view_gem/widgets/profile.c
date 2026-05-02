@@ -1,6 +1,8 @@
 #include <zephyr/kernel.h>
 #include "profile.h"
 
+#if !IS_ENABLED(CONFIG_ZMK_SPLIT) || IS_ENABLED(CONFIG_ZMK_SPLIT_ROLE_CENTRAL)
+
 LV_IMG_DECLARE(profiles);
 
 static void draw_inactive_profiles(lv_obj_t *canvas, const struct status_state *state) {
@@ -18,6 +20,8 @@ static void draw_active_profile(lv_obj_t *canvas, const struct status_state *sta
 
     lv_canvas_draw_rect(canvas, 85 + offset, 143, 8, 8, &rect_white_dsc);
 }
+
+#endif
 
 void draw_profile_status(lv_obj_t *canvas, const struct status_state *state) {
 #if !IS_ENABLED(CONFIG_ZMK_SPLIT) || IS_ENABLED(CONFIG_ZMK_SPLIT_ROLE_CENTRAL)

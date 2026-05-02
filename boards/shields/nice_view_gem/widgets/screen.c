@@ -12,11 +12,13 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 #include <zmk/display.h>
 #include <zmk/keymap.h>
 #include <zmk/usb.h>
+#if IS_ENABLED(CONFIG_USB_DEVICE_STACK)
+#include <zmk/events/usb_conn_state_changed.h>
+#endif
 
 #if !IS_ENABLED(CONFIG_ZMK_SPLIT) || IS_ENABLED(CONFIG_ZMK_SPLIT_ROLE_CENTRAL)
 #include <zmk/events/ble_active_profile_changed.h>
 #include <zmk/events/endpoint_changed.h>
-#include <zmk/events/usb_conn_state_changed.h>
 #include <zmk/events/wpm_state_changed.h>
 #include <zmk/ble.h>
 #include <zmk/endpoints.h>
