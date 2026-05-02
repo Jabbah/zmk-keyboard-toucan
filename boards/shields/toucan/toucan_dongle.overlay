@@ -38,6 +38,10 @@
     };
 };
 
+&glidepoint_split {
+    status = "okay";
+};
+
 &glidepoint_listener {
     status = "okay";
 };
