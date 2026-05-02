@@ -7,19 +7,21 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 #include <zmk/events/activity_state_changed.h>
 #include <zmk/events/battery_state_changed.h>
 #include <zmk/events/split_peripheral_status_changed.h>
-#include <zmk/events/ble_active_profile_changed.h>
-#include <zmk/events/endpoint_changed.h>
 #include <zmk/events/layer_state_changed.h>
-#include <zmk/events/usb_conn_state_changed.h>
-#include <zmk/events/wpm_state_changed.h>
 #include <zmk/battery.h>
-#include <zmk/ble.h>
 #include <zmk/display.h>
-#include <zmk/display/widgets/battery_status.h>
-#include <zmk/endpoints.h>
 #include <zmk/keymap.h>
 #include <zmk/usb.h>
+
+#if !IS_ENABLED(CONFIG_ZMK_SPLIT) || IS_ENABLED(CONFIG_ZMK_SPLIT_ROLE_CENTRAL)
+#include <zmk/events/ble_active_profile_changed.h>
+#include <zmk/events/endpoint_changed.h>
+#include <zmk/events/usb_conn_state_changed.h>
+#include <zmk/events/wpm_state_changed.h>
+#include <zmk/ble.h>
+#include <zmk/endpoints.h>
 #include <zmk/split/central.h>
+#endif
 
 #include "battery.h"
 #include "battery_peripheral.h"
@@ -57,9 +59,8 @@ static void draw_top(lv_obj_t *widget, lv_color_t cbuf[], const struct status_st
 }
 
 /**
- * Battery status
+ * Battery status (local — both central and peripheral)
  **/
-// L
 static void set_battery_status(struct zmk_widget_screen *widget,
                                struct battery_status_state state) {
 #if IS_ENABLED(CONFIG_USB_DEVICE_STACK)
@@ -94,7 +95,11 @@ ZMK_SUBSCRIPTION(widget_battery_status, zmk_battery_state_changed);
 ZMK_SUBSCRIPTION(widget_battery_status, zmk_usb_conn_state_changed);
 #endif /* IS_ENABLED(CONFIG_USB_DEVICE_STACK) */
 
-// R
+#if !IS_ENABLED(CONFIG_ZMK_SPLIT) || IS_ENABLED(CONFIG_ZMK_SPLIT_ROLE_CENTRAL)
+
+/**
+ * Battery peripheral status (central only — tracking the right half's battery)
+ **/
 static void set_battery_peripheral_status(struct zmk_widget_screen *widget,
                                struct battery_peripheral_status_state state) {
 #if IS_ENABLED(CONFIG_USB_DEVICE_STACK)
@@ -117,7 +122,6 @@ static void battery_peripheral_status_update_cb(struct battery_peripheral_status
 static struct battery_peripheral_status_state battery_peripheral_status_get_state(const zmk_event_t *eh) {
     const struct zmk_peripheral_battery_state_changed *ev = as_zmk_peripheral_battery_state_changed(eh);
 
-
     return (struct battery_peripheral_status_state){
         .level = ev->state_of_charge,
 #if IS_ENABLED(CONFIG_USB_DEVICE_STACK)
@@ -132,7 +136,7 @@ ZMK_DISPLAY_WIDGET_LISTENER(widget_battery_peripheral_status, struct battery_per
 ZMK_SUBSCRIPTION(widget_battery_peripheral_status, zmk_peripheral_battery_state_changed);
 
 /**
- * Layer status
+ * Layer status (central only — layer_index is not in peripheral status_state)
  **/
 
 static void set_layer_status(struct zmk_widget_screen *widget, struct layer_status_state state) {
@@ -158,7 +162,7 @@ ZMK_DISPLAY_WIDGET_LISTENER(widget_layer_status, struct layer_status_state, laye
 ZMK_SUBSCRIPTION(widget_layer_status, zmk_layer_state_changed);
 
 /**
- * Output status
+ * Output status (central only)
  **/
 
 static void set_output_status(struct zmk_widget_screen *widget,
@@ -195,6 +199,36 @@ ZMK_SUBSCRIPTION(widget_output_status, zmk_usb_conn_state_changed);
 #if defined(CONFIG_ZMK_BLE)
 ZMK_SUBSCRIPTION(widget_output_status, zmk_ble_active_profile_changed);
 #endif
+
+#else /* peripheral */
+
+/**
+ * Peripheral BLE connection status
+ **/
+
+static void set_connection_status(struct zmk_widget_screen *widget,
+                                  struct connection_status_state state) {
+    widget->state.connected = state.connected;
+    draw_top(widget->obj, widget->cbuf, &widget->state);
+}
+
+static void connection_status_update_cb(struct connection_status_state state) {
+    struct zmk_widget_screen *widget;
+    SYS_SLIST_FOR_EACH_CONTAINER(&widgets, widget, node) { set_connection_status(widget, state); }
+}
+
+static struct connection_status_state connection_status_get_state(const zmk_event_t *eh) {
+    const struct zmk_split_peripheral_status_changed *ev = as_zmk_split_peripheral_status_changed(eh);
+    return (struct connection_status_state){
+        .connected = (ev != NULL) ? ev->connected : false,
+    };
+}
+
+ZMK_DISPLAY_WIDGET_LISTENER(widget_connection_status, struct connection_status_state,
+                             connection_status_update_cb, connection_status_get_state)
+ZMK_SUBSCRIPTION(widget_connection_status, zmk_split_peripheral_status_changed);
+
+#endif /* !IS_ENABLED(CONFIG_ZMK_SPLIT) || IS_ENABLED(CONFIG_ZMK_SPLIT_ROLE_CENTRAL) */
 
 /**
  * Activity state handling for sleep screen
@@ -250,12 +284,15 @@ int zmk_widget_screen_init(struct zmk_widget_screen *widget, lv_obj_t *parent) {
 
     sys_slist_append(&widgets, &widget->node);
     widget_battery_status_init();
+#if !IS_ENABLED(CONFIG_ZMK_SPLIT) || IS_ENABLED(CONFIG_ZMK_SPLIT_ROLE_CENTRAL)
     widget_battery_peripheral_status_init();
     widget_layer_status_init();
     widget_output_status_init();
+#else
+    widget_connection_status_init();
+#endif
 
     return 0;
 }
 
 lv_obj_t *zmk_widget_screen_obj(struct zmk_widget_screen *widget) { return widget->obj; }
-

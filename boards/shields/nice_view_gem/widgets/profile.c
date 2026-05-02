@@ -20,6 +20,8 @@ static void draw_active_profile(lv_obj_t *canvas, const struct status_state *sta
 }
 
 void draw_profile_status(lv_obj_t *canvas, const struct status_state *state) {
+#if !IS_ENABLED(CONFIG_ZMK_SPLIT) || IS_ENABLED(CONFIG_ZMK_SPLIT_ROLE_CENTRAL)
     draw_inactive_profiles(canvas, state);
     draw_active_profile(canvas, state);
+#endif
 }
