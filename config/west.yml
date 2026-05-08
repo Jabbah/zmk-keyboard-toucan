@@ -18,6 +18,8 @@ manifest:
       url-base: https://github.com/geeksville
     - name: janpfischer
       url-base: https://github.com/Dexter-KBD
+    - name: kot149
+      url-base: https://github.com/kot149
 
   projects:
     - name: zmk
@@ -36,6 +38,9 @@ manifest:
     - name: zmk-dongle-screen
       remote: albertclee
       revision: main
+    - name: zmk-scroll-snap
+      remote: kot149
+      revision: v1
       
   self:
     path: config
