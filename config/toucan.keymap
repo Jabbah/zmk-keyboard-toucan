@@ -93,6 +93,24 @@
             key-positions = <30 31>;
         };
 
+        TopLeftMouseClick {
+            bindings = <&mkp MB1>;
+            timeout-ms = <100>;
+            key-positions = <3 4>;
+        };
+
+        TopRightMouseClick {
+            bindings = <&mkp MB2>;
+            timeout-ms = <100>;
+            key-positions = <4 5>;
+        };
+
+        TopScrollEnable {
+            bindings = <&mo 1>;
+            timeout-ms = <100>;
+            key-positions = <3 5>;
+        };
+
         non_us_double_quote {
             bindings = <&kp AT>;
             timeout-ms = <500>;
