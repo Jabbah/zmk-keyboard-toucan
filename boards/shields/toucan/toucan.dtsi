@@ -64,11 +64,20 @@
         };
     };
 
+    zip_accel: zip_accel {
+        compatible = "zmk,input-processor-accel";
+        #input-processor-cells = <0>;
+        min-delta = <2>;
+        max-delta = <12>;
+        min-scale = <100>;
+        max-scale = <250>;
+    };
+
     glidepoint_listener: glidepoint_listener {
         compatible = "zmk,input-listener";
         status = "disabled";
         device = <&glidepoint_split>;
-        input-processors = <&zip_xy_scaler 150 100>;
+        input-processors = <&zip_accel>;
         scroller {
             layers = <1 2>;
             input-processors = <
