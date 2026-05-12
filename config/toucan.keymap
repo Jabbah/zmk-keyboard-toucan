@@ -95,20 +95,20 @@
 
         TopLeftMouseClick {
             bindings = <&mkp MB1>;
-            timeout-ms = <100>;
-            key-positions = <3 4>;
+            timeout-ms = <25>;
+            key-positions = <2 3>;
         };
 
         TopRightMouseClick {
             bindings = <&mkp MB2>;
-            timeout-ms = <100>;
-            key-positions = <4 5>;
+            timeout-ms = <25>;
+            key-positions = <3 4>;
         };
 
         TopScrollEnable {
             bindings = <&mo 1>;
-            timeout-ms = <100>;
-            key-positions = <3 5>;
+            timeout-ms = <25>;
+            key-positions = <2 4>;
         };
 
         non_us_double_quote {
