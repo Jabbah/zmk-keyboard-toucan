@@ -10,6 +10,11 @@ properties:
     const: 0
     required: true
 
+  track-remainders:
+    type: boolean
+    description: >
+      Enable remainder tracking (not needed for cursor acceleration).
+
   min-delta:
     type: int
     required: true
