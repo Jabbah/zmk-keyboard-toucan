@@ -78,17 +78,8 @@
         status = "disabled";
         device = <&glidepoint_split>;
         input-processors = <&zip_accel>;
-        scroller {
-            layers = <1>;
-            input-processors = <
-                &zip_xy_to_scroll_mapper
-                &zip_scroll_snap
-                &zip_scroll_scaler 1 10
-                &zip_scroll_transform INPUT_TRANSFORM_Y_INVERT
-            >;
-        };
         scroller_accel {
-            layers = <2>;
+            layers = <1 2 3>;
             input-processors = <
                 &zip_accel
                 &zip_xy_to_scroll_mapper
