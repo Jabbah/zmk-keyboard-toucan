@@ -95,22 +95,22 @@
 
         TopLeftMouseClick {
             bindings = <&mkp MB1>;
-            timeout-ms = <50>;
-            require-prior-idle-ms = <350>;
+            timeout-ms = <100>;
+            require-prior-idle-ms = <500>;
             key-positions = <2 3>;
         };
 
         TopRightMouseClick {
             bindings = <&mkp MB2>;
-            timeout-ms = <50>;
-            require-prior-idle-ms = <350>;
+            timeout-ms = <100>;
+            require-prior-idle-ms = <500>;
             key-positions = <3 4>;
         };
 
         TopScrollEnable {
             bindings = <&mo 1>;
-            timeout-ms = <50>;
-            require-prior-idle-ms = <350>;
+            timeout-ms = <100>;
+            require-prior-idle-ms = <500>;
             key-positions = <2 4>;
         };
 
