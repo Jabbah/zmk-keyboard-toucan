@@ -80,9 +80,3 @@
     // input-processors = <&zip_xy_transform (INPUT_TRANSFORM_XY_SWAP | INPUT_TRANSFORM_X_INVERT | INPUT_TRANSFORM_Y_INVERT)>;
 };
 
-&zip_accel {
-    min-delta = <2>;   // input magnitude at/below this is "slow" — min-scale applies
-    max-delta = <20>;  // input magnitude at/above this is "fast" — max-scale applies; wider gap = more gradual ramp
-    min-scale = <100>; // multiplier for slow movement (100 = 1.0x, no change)
-    max-scale = <250>; // multiplier for fast movement (250 = 2.5x)
-};

@@ -68,7 +68,7 @@
         compatible = "zmk,input-processor-accel";
         #input-processor-cells = <0>;
         min-delta = <2>;
-        max-delta = <12>;
+        max-delta = <20>;
         min-scale = <100>;
         max-scale = <250>;
     };
