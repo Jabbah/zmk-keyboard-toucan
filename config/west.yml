@@ -20,6 +20,8 @@ manifest:
       url-base: https://github.com/Dexter-KBD
     - name: kot149
       url-base: https://github.com/kot149
+    - name: jabbah
+      url-base: https://github.com/jabbah
 
   projects:
     - name: zmk
@@ -41,6 +43,9 @@ manifest:
     - name: zmk-scroll-snap
       remote: kot149
       revision: v1
-      
+    - name: zmk-input-inertia
+      remote: jabbah
+      revision: main
+
   self:
     path: config
